@@ -1,21 +1,23 @@
-require('dotenv').config(); 
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const mileageRoutes = require('./routes/mileage');
 const accountRoutes = require('./routes/accounts');
 const usersRoutes = require('./routes/users');
 const tripRoutes = require('./routes/trip');
 
+const dotenv = require('dotenv');
+require('dotenv').config(); 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost/milestone_project')
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+const connectDB = require('./config/db');
+
+dotenv.config();
+connectDB();
+
 
 app.use('/api', mileageRoutes);
 app.use('/api', accountRoutes);
